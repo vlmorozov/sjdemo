@@ -15,6 +15,9 @@ class CreatePupilsTable extends Migration
     {
         Schema::create('pupils', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('user_id');
+            $table->bigInteger('school_id');
+            $table->bigInteger('class_id');
             $table->timestamps();
         });
     }

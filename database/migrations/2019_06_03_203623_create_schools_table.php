@@ -15,7 +15,7 @@ class CreateSchoolsTable extends Migration
     {
         Schema::create('schools', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('alias', 50)->unique()->comment('Уникальное название школы (латиницей)');
+            $table->string('sysname', 50)->unique()->comment('Уникальное название школы (латиницей)');
             $table->string('title', 255)->nullable()->comment('Название школы');
             $table->text('address')->nullable()->comment('Адрес');
             $table->string('phone')->nullable()->comment('Телефон');
