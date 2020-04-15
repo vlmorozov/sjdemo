@@ -18,9 +18,6 @@
                 </div>
             </div>
 
-            <example-component></example-component>
-            <UsersList></UsersList>
-            <UserEdit></UserEdit>
         </div>
     </div>
 </div>

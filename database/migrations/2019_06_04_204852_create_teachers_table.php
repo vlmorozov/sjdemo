@@ -15,8 +15,8 @@ class CreateTeachersTable extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id');
-            $table->bigInteger('school_id');
+            $table->bigInteger('user_id')->nullable();
+            $table->bigInteger('school_id')->nullable();
             $table->timestamps();
         });
     }

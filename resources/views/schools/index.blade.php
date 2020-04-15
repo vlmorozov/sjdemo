@@ -23,20 +23,34 @@
 
     <table class="table table-bordered">
         <tr>
-            <th>ID</th>
-            <th>Sysname</th>
-            <th>Title</th>
-            <th width="280px">Action</th>
+
+            @foreach ($columns as $column)
+                @if ($column['sort'])
+                    <th {{ isset($column['width'])? "width = '".$column['width']."'" :""  }}>
+                        <a href="{{ route('schools.index')}}?&sort={{$column['field']}}&direction={{ ($column['field'] == $sort && $direction == 'asc') ? "desc" : "asc" }}">{{ $column['title'] }}
+                            @if ($column['field'] == $sort)
+                                {{($direction == 'asc') ? "Возр" : "Убыв" }}
+                            @endif
+                        </a>
+                    </th>
+                @else
+                    <th>{{$column['title']}}</th>
+                @endif
+            @endforeach
+
         </tr>
         @foreach ($data as $key => $school)
             <tr>
                 <td>{{ $school->id }}</td>
-                <td>{{ $school->name }}</td>
-                <td>{{ $school->email }}</td>
+                <td>{{ $school->sysname }}</td>
+                <td>{{ $school->title }}</td>
+                <td>{{ $school->owner->name }}</td>
+                <td>{{ $school->address }}</td>
+                <td>{{ $school->phone }}</td>
                 <td>
-                    <a class="btn btn-info" href="{{ route('school.show',$school->id) }}">Show</a>
-                    <a class="btn btn-primary" href="{{ route('school.edit',$school->id) }}">Edit</a>
-                    {!! Form::open(['method' => 'DELETE','route' => ['schools.destroy', $user->id],'style'=>'display:inline']) !!}
+                    <a class="btn btn-info" href="{{ route('schools.show',$school->id) }}">Show</a>
+                    <a class="btn btn-primary" href="{{ route('schools.edit',$school->id) }}">Edit</a>
+                    {!! Form::open(['method' => 'DELETE','route' => ['schools.destroy', $school->id],'style'=>'display:inline']) !!}
                     {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
                     {!! Form::close() !!}
                 </td>

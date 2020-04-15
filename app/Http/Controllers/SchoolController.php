@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\School;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
@@ -21,8 +22,29 @@ class SchoolController extends Controller
      */
     public function index(Request $request)
     {
-        $data = School::orderBy('id','DESC')->paginate(5);
-        return view('schools.index',compact('data'))
+
+
+        $sortField =  $request->get('sort','created_at');
+        $sortDirection =  $request->get('direction','asc');
+
+        $columns = [
+            ['title' => 'ID', 'field' => 'id', 'sort' => false],
+            ['title' => 'Sysname', 'field' => 'sysname', 'sort' => false],
+            ['title' => 'Title', 'field' => 'title', 'sort' => true],
+            ['title' => 'Owner', 'field' => 'owner', 'sort' => true],
+            ['title' => 'Address', 'field' => 'address', 'sort' => true],
+            ['title' => 'Phone', 'field' => 'phone', 'sort' => true],
+            ['title' => 'Action', 'field' => 'action', 'sort' => false, 'width' => '280px']
+        ];
+
+
+        $data = School::with('owner')->orderBy($sortField, $sortDirection)->paginate(5);
+        return view('schools.index',[
+            'data' => $data,
+            'columns' => $columns,
+            'sort' => $sortField,
+            'direction' => $sortDirection,
+        ])
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
@@ -49,6 +71,7 @@ class SchoolController extends Controller
         $this->validate($request, [
             'sysname' => 'required|unique:schools,sysname',
             'title' => 'required',
+            'adress' => 'required',
         ]);
 
 
@@ -84,9 +107,17 @@ class SchoolController extends Controller
      */
     public function edit($id)
     {
-        $school = School::find($id);
+        $school = School::with('owner')->find($id);
+        $allUsers = User::whereHas('roles', function($query) {
+            $roles = Role::whereIn('name', ['Ученик', 'Родитель'])->get();
+            $roles = $roles->pluck('id')->all();
 
-        return view('school.edit',compact('school'));
+            $query->whereNotIn('id', $roles);
+        })->get();
+
+        $owners = $allUsers->pluck('name', 'id')->all();
+
+        return view('schools.edit',compact('school', 'owners'));
     }
 
 
@@ -100,7 +131,7 @@ class SchoolController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'sysname' => 'required|unique:schools,sysname',
+            'sysname' => 'required',
             'title' => 'required',
         ]);
 

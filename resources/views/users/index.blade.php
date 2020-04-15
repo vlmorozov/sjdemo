@@ -20,14 +20,23 @@
         </div>
     @endif
 
+    {!! $formFilters->render() !!}
 
     <table class="table table-bordered">
         <tr>
-            <th>No</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Roles</th>
-            <th width="280px">Action</th>
+            @foreach ($columns as $column)
+                @if ($column['sort'])
+                    <th {{ isset($column['width'])? "width = '".$column['width']."'" :""  }}>
+                        <a href="{{ route('users.index')}}?{{http_build_query($formFilters->getValues())}}&sort={{$column['field']}}&direction={{ ($column['field'] == $sort && $direction == 'asc') ? "desc" : "asc" }}">{{ $column['title'] }}
+                            @if ($column['field'] == $sort)
+                                {{($direction == 'asc') ? "Возр" : "Убыв" }}
+                            @endif
+                        </a>
+                    </th>
+                @else
+                    <th>{{$column['title']}}</th>
+                @endif
+            @endforeach
         </tr>
         @foreach ($data as $key => $user)
             <tr>
@@ -35,6 +44,7 @@
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
                 <td>
+
                     @if(!empty($user->getRoleNames()))
                         @foreach($user->getRoleNames() as $v)
                             <label class="badge badge-success">{{ $v }}</label>
@@ -53,7 +63,7 @@
     </table>
 
 
-    {!! $data->render() !!}
+    {!! $data->appends(array_merge($formFilters->getValues(), ['sort' => $sort, 'direction' => $direction]))->render() !!}
 
 
 @endsection

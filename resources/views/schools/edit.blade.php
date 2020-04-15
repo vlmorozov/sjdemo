@@ -26,7 +26,7 @@
     @endif
 
 
-    {!! Form::model($user, ['method' => 'PATCH','route' => ['schools.update', $user->id]]) !!}
+    {!! Form::model($school, ['method' => 'PATCH','route' => ['schools.update', $school->id]]) !!}
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
@@ -38,6 +38,26 @@
             <div class="form-group">
                 <strong>Title:</strong>
                 {!! Form::text('title', null, array('placeholder' => 'Title','class' => 'form-control')) !!}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Owner:</strong>
+                {!! Form::select('owner_id', $owners, $school->owner_id, array('class' => 'form-control')) !!}
+
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Address:</strong>
+                {!! Form::text('address', null, array('placeholder' => 'adress','class' => 'form-control')) !!}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Phone:</strong>
+                {!! Form::text('phone', null, array('placeholder' => 'phone','class' => 'form-control')) !!}
             </div>
         </div>
          <div class="col-xs-12 col-sm-12 col-md-12 text-center">

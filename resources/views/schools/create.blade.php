@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2>Create New User</h2>
+                <h2>Create New School</h2>
             </div>
             <div class="pull-right">
                 <a class="btn btn-primary" href="{{ route('schools.index') }}"> Back</a>
@@ -27,7 +27,7 @@
 
 
 
-    {!! Form::open(array('route' => 'schools.store','method'=>'POST')) !!}
+    {!! Form::open(array('route' => 'classes.store','method'=>'POST')) !!}
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
@@ -42,6 +42,24 @@
             </div>
         </div>
 
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Owner:</strong>
+
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Address:</strong>
+                {!! Form::text('address', null, array('placeholder' => 'owner','class' => 'form-control')) !!}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Phone:</strong>
+                {!! Form::text('phone', null, array('placeholder' => 'owner','class' => 'form-control')) !!}
+            </div>
+        </div>
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>

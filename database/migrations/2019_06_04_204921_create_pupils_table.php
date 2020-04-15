@@ -15,10 +15,15 @@ class CreatePupilsTable extends Migration
     {
         Schema::create('pupils', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id');
-            $table->bigInteger('school_id');
-            $table->bigInteger('class_id');
+            $table->bigInteger('user_id')->index()->nullable();
+            $table->bigInteger('school_id')->index()->nullable();
+            $table->bigInteger('class_id')->index()->nullable();
             $table->timestamps();
+
+//            $table->foreign('user_id')
+//                ->references('id')->on('users');
+//            $table->foreign('school_id')
+//                ->references('id')->on('schools');
         });
     }
 

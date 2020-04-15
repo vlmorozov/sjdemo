@@ -38,4 +38,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function schools()
+    {
+        return $this->belongsToMany(School::class, UserSchool::TABLE, 'user_id', 'school_id');
+    }
+
+    public function currentSchool()
+    {
+        return $this->schools->first();
+    }
 }

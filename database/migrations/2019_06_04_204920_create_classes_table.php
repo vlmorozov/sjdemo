@@ -15,10 +15,15 @@ class CreateClassesTable extends Migration
     {
         Schema::create('classes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title');
             $table->bigInteger('school_id');
+            $table->string('title');
+            $table->string('number');
+            $table->string('letter');
+            $table->integer('year');
             $table->timestamps();
         });
+
+
     }
 
     /**

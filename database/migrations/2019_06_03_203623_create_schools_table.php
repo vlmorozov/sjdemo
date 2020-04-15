@@ -17,6 +17,7 @@ class CreateSchoolsTable extends Migration
             $table->bigIncrements('id');
             $table->string('sysname', 50)->unique()->comment('Уникальное название школы (латиницей)');
             $table->string('title', 255)->nullable()->comment('Название школы');
+            $table->bigInteger('owner_id')->nullable()->comment('Владелец школы');
             $table->text('address')->nullable()->comment('Адрес');
             $table->string('phone')->nullable()->comment('Телефон');
             $table->timestamps();
